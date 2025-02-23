@@ -79,3 +79,9 @@ This utility is available under the MIT License.
 # Todo
 
 Add Error Support for other third party apis
+
+- Stripe
+- Github
+- Discord
+- Google Maps
+- Paypal .etc
