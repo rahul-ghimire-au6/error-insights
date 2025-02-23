@@ -23,6 +23,10 @@ It also provides potential Error causes suggested Error solutions and a Doc Erro
 ```javascript
 const { TwilioErrorCode } = require("error-insights");
 
+// or
+
+import { TwilioErrorCode } from "error-insights";
+
 // Example: Retrieve all details for a specific error code
 const errorDetails = TwilioErrorCode(30003);
 console.log(errorDetails);
