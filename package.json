@@ -1,5 +1,5 @@
 {
-  "name": "@light/error-mapper",
+  "name": "error-insights",
   "version": "1.0.0",
   "description": "gives more info on error codes for third party apis and many more",
   "main": "index.js",
@@ -9,9 +9,9 @@
   },
   "repository":{
     "type": "git",
-    "url": "git+https://github.com/rahul-ghimire-au6/error-mapper.git"
+    "url": "git+https://github.com/rahul-ghimire-au6/error-insights.git"
   },
-  "keywords": ["error-mapper"],
+  "keywords": ["error-insights","error","insights","twilio"],
   "author": "Rahul R Ghimire",
   "license": "ISC"
 }
