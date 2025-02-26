@@ -17,10 +17,31 @@ function loadErrorInfo() {
 // Load the error info from the JSON file
 const twilioErrorInfo = loadErrorInfo();
 
-// Error lookup function
+// Binary search function to find an error by code
+function binarySearchErrorCode(errorCode) {
+    let left = 0;
+    let right = twilioErrorInfo.length - 1;
+
+    while (left <= right) {
+        let mid = Math.floor((left + right) / 2);
+        let midCode = twilioErrorInfo[mid].code;
+
+        if (midCode === errorCode) {
+            return twilioErrorInfo[mid]; // Found the error
+        } else if (midCode < errorCode) {
+            left = mid + 1;
+        } else {
+            right = mid - 1;
+        }
+    }
+
+    return null; // Not found
+}
+
+// Error lookup function using binary search
 function TwilioErrorCode(errorCode, ...fields) {
     const base_url = "https://www.twilio.com/docs/api/errors";
-    const error = twilioErrorInfo.find(e => e.code === errorCode);
+    const error = binarySearchErrorCode(errorCode);
 
     if (!error) {
         return `Error code ${errorCode} not found.`;
@@ -29,31 +50,23 @@ function TwilioErrorCode(errorCode, ...fields) {
     // Generate the docLink dynamically
     const docLink = `${base_url}/${errorCode}`;
 
-    const result = {};
-    // If no fields are provided, return all fields related to the error code
+    // If no fields are provided, return all fields with docLink
     if (fields.length === 0) {
-        // Include docLink in the result
-        return { ...error, docLink }; // Return all fields with docLink
+        return { ...error, docLink };
     }
 
     // Otherwise, return only the requested fields
+    const result = {};
     fields.forEach(field => {
-        if (error[field]) {
-            result[field] = error[field];
-        } else {
-            result[field] = `Field '${field}' not found in error code ${errorCode}.`;
-        }
+        if(field!=="")
+            result[field] = error[field] ?? `Field '${field}' not found in error code ${errorCode}.`;
     });
 
-    // Add docLink to the result
-    result.docLink = docLink;
-
-    if (fields.length === 1) {
-        return result[fields[0]];  // If only one field is requested, return it directly.
+    if (fields.includes("docLink")) {
+        result.docLink = docLink;
     }
 
-    return result;  // Return all fields as an object if more than one field is requested.
+    return fields.length === 1 ? result[fields[0]] : result;
 }
-
 
 module.exports = { TwilioErrorCode };
